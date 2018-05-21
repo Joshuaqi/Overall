@@ -1,0 +1,92 @@
+apply plugin: 'com.android.application'
+
+android {
+    defaultConfig {
+        multiDexEnabled true
+    }
+    signingConfigs {
+        config {
+            keyPassword 'android'
+            storeFile file('/Users/qyh/android/magick.keystore')
+            storePassword 'android'
+            keyAlias 'magick.keystore'
+        }
+    }
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
+    defaultConfig {
+        applicationId "com.yyhh.overall"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 3
+        versionName "1.2"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+    }
+    packagingOptions {
+        /*exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'*/
+        exclude 'META-INF/rxjava.properties'
+        exclude 'META-INF/rxjava.PROPERTIES'
+        exclude 'META-INF/RXJAVA.properties'
+        exclude 'META-INF/RXJAVA.PROPERTIES'
+    }
+    sourceSets {
+        main {
+            //so包，c c#语言--->jni
+            //告诉当前工程，去libs下找c库
+            //c库有默认的位置：src/main/jniLibs
+            jniLibs.srcDirs 'libs'
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:design:26.1.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.pgyersdk:sdk:2.8.1'
+    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.android.support:percent:26.1.0'
+    compile 'javax.inject:javax.inject:1'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:retrofit-adapters:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    compile project(path: ':uMSSDKGUI')
+    implementation 'com.github.bumptech.glide:glide:4.0.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
+    compile "com.android.support:support-v4:26.+"
+}
